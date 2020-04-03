@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
 
-//requiring my index.js bien venu route
+//importing & requiring my index.js bien venu route
 app.use('/', require('./routes/index'));
+
+//importing & requiring my clients.js route
+app.use('/clients', require('./routes/clients'));
 
 
 const PORT = process.env.PORT || 4000;
