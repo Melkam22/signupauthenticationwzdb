@@ -17,7 +17,7 @@ const {name, email, password, password2} = req.body;
      globalMessage.push({msg: 'All fields need to be filled!'});
  }
      //if passwords do not match
-     if(password2 !== password2){
+     if(password !== password2){
          globalMessage.push({msg: 'The two passwords do not match.'});
      }
      //if password is not  strong
