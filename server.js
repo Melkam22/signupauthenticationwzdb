@@ -1,10 +1,13 @@
 const express = require('express');
-const mongoose = require('mongoose');
-
 //require expressLayouts (EJS)
 const expressLayouts = require('express-ejs-layouts');
+const mongoose = require('mongoose');
+
+ 
+
 
 const app = express();
+ 
 
 //link to the database
 const dataBase = require('./config/keys').MongoURI;
@@ -13,8 +16,11 @@ mongoose.connect(dataBase, {useNewUrlParser: true})
 .catch(err=> console.log(err));
 
 //EJS, from expressLayouts documentation
-app.set('view engine', 'ejs');
 app.use(expressLayouts);
+app.set('view engine', 'ejs');
+
+//bodyParser
+app.use(express.urlencoded({extended: false}));
 
 //importing & requiring my index.js bien venu route
 app.use('/', require('./routes/index'));

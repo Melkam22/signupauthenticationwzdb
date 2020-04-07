@@ -1,0 +1,5 @@
+<% if(typeof globalMessage != 'undefined'){ %>
+    <% globalMessage.forEach(function(error){ %>
+        <%= error.msg %>
+   <% }); %>
+<% } %>
