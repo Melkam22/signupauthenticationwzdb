@@ -1,9 +1,16 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
 //require expressLayouts (EJS)
 const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
+
+//link to the database
+const dataBase = require('./config/keys').MongoURI;
+mongoose.connect(dataBase, {useNewUrlParser: true})
+.then(()=>console.log('MongoDB is connected'))
+.catch(err=> console.log(err));
 
 //EJS, from expressLayouts documentation
 app.set('view engine', 'ejs');
