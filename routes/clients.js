@@ -6,6 +6,9 @@ const schema = require('../models/schema');
 //import bcrypt
 const bcrypt = require('bcryptjs');
 
+//import & require passport, for login
+const passport = require('passport')
+
 router.get('/login', (req, res)=>res.render('login'));
 router.get('/register', (req, res)=>res.render('register'));
 
@@ -76,22 +79,16 @@ const {name, email, password, password2} = req.body;
         }  
     })
 
+//login handle passport
+router.post('/login', (req, res, next)=>{
+    passport.authenticate('local', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/clients/login',
+        failureFlash: true
+    }) (req, res, next);
+})
 
 
-                 
-         /* console.log(mySchema);
-         res.send("Hi!") replace it with bcrypt*/
-        /*  bcrypt.genSalt(10, (err, salt)=>
-         bcrypt.hash(mySchema.password, salt, (err, hash)=>{
-             if(err) throw err;
-             //setting password & saving it to db
-             mySchema.password = hash;
-             mySchema.save()
-             .then(guest=>{
-                 res.redirect('clients/login');
-             })
-             .catch(err => Console.log(err));
-         })) */
   
 
 module.exports = router;

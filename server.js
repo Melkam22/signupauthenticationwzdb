@@ -5,11 +5,14 @@ const mongoose = require('mongoose');
 //require flash
 const flash = require('connect-flash');
 const session = require('express-session');
- 
-
+//req passport
+const passport = require('passport');
 
 const app = express();
- 
+
+//require passport
+require('./config/passport')(passport);
+
 
 //link to the database
 const dataBase = require('./config/keys').MongoURI;
@@ -30,13 +33,20 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+//from passport documentation, along wz serializeuser on passport.js
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 //connect flash middleware
 app.use(flash());
 
 //reusable global variables
 app.use((req, res, next)=>{
     res.locals.success_msg = req.flash('success_msg');
-    res.locals.failure_msg = req.flash('failure_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
     next();
 })
 
