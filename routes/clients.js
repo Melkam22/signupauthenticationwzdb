@@ -39,10 +39,10 @@ const {name, email, password, password2} = req.body;
         } else{
             /* res.send('OK') instead of this we ll add the below*/
             schema.findOne({email: email})
-            .then(user=> {
-                if(user){
-                   /*  globalMessage.push({msg: 'Email already registered.'}); */
-                    res.redirect('register', {
+            .then(guest=> {
+                if(guest){
+                   globalMessage.push({msg: 'Email already registered.'}); 
+                    res.render('register', {
                         globalMessage,
                         name,
                         email,
@@ -55,8 +55,21 @@ const {name, email, password, password2} = req.body;
                         email, 
                         password
                     })
-                    console.log(mySchema)
-                    res.send('OKAY') 
+                    /* console.log(mySchema)
+                    res.send('OKAY') */ //replace it with bcrypt to compare password 
+                    bcrypt.genSalt(10, (err, salt)=>
+                    bcrypt.hash(mySchema.password, salt, (err, hash)=>{
+                        if(err) throw err;
+                        //setting password & saving it to db
+                        mySchema.password = hash;
+                        mySchema.save()
+                        .then(guest=>{
+                            //flash success msg
+                            req.flash('success_msg', 'Successfully Registered, you can now Login')
+                            res.redirect('/clients/login');
+                        })
+                        .catch(err => console.log(err));
+                    }))
                 }
             })
             .catch(err => console.log(err));

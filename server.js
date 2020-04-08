@@ -2,7 +2,9 @@ const express = require('express');
 //require expressLayouts (EJS)
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
-
+//require flash
+const flash = require('connect-flash');
+const session = require('express-session');
  
 
 
@@ -21,6 +23,22 @@ app.set('view engine', 'ejs');
 
 //bodyParser
 app.use(express.urlencoded({extended: false}));
+
+//express-session middleware
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
+//connect flash middleware
+app.use(flash());
+
+//reusable global variables
+app.use((req, res, next)=>{
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.failure_msg = req.flash('failure_msg');
+    next();
+})
 
 //importing & requiring my index.js bien venu route
 app.use('/', require('./routes/index'));
