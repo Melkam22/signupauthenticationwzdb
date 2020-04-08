@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
- 
+//import the schema
+const schema = require('../models/schema');
 
 router.get('/login', (req, res)=>res.render('login'));
 router.get('/register', (req, res)=>res.render('register'));
@@ -34,7 +35,14 @@ const {name, email, password, password2} = req.body;
              password2
          });
      } else {
-         res.send('OK!')
+         /* res.send('OK!') replace this with the below*/
+         const mySchema = new schema({
+             name,
+             email,
+             password
+         })
+         console.log(mySchema);
+         res.send("Hi!")
      } 
 })
 
