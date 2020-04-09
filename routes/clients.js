@@ -88,6 +88,14 @@ router.post('/login', (req, res, next)=>{
     }) (req, res, next);
 })
 
+//route handler for logout from dashboard.ejs
+router.get('/logout', (req, res)=>{
+    req.logout();
+    req.flash('success_msg', 'You are successfully logged out.');
+    res.redirect('/clients/login');
+})
+
+
 
   
 
